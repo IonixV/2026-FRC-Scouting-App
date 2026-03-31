@@ -19,12 +19,20 @@ jobs:
           python-version: '3.10'
           
       - name: Install dependencies
-        run: pip install requests openpyxl statbotics
+        run: pip install requests openpyxl statbotics pandas
         
-      - name: Run script
+      - name: Run pre-scout script
         env:
           TBA_KEY2: ${{ secrets.TBA_KEY2 }}
         run: python pre_scout/generate_scouting_sheet.py
+
+      - name: Run match scout merger
+        run: |
+          if [ -d "match_scouting" ] && [ "$(ls -A match_scouting/*.csv 2>/dev/null)" ]; then
+            python docs/merge_scouting.py match_scouting
+          else
+            echo "No CSVs found, skipping merge."
+          fi
         
       - name: Commit and Push
         run: |
