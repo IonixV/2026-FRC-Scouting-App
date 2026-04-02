@@ -33,6 +33,11 @@ jobs:
           else
             echo "No CSVs found, skipping merge."
           fi
+
+      - name: Run assignment script
+        env:
+          TBA_KEY2: ${{ secrets.TBA_KEY2 }}
+        run: python pre_scout/generate_assignments.py
         
       - name: Commit and Push
         run: |
