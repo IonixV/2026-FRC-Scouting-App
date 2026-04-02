@@ -14,6 +14,7 @@ Fork this repository for your own use!
 
 ```
 ├── pre_scout/
+│   ├── generate_assignments.py      # Assign teams for each scouter
 │   ├── generate_scouting_sheet.py   # Pre-event data script
 ├── docs/
 │   ├── index.html                   # Match scouting web app (served via GitHub Pages)
@@ -41,17 +42,15 @@ Fork this repository for your own use!
 
 3. **Edit the script for your event:**
     - Go to line 21 of the `generate_scouting_sheet.py` file and edit for your event key.
+    - Go to line 24 of the `generate_assignments.py` file and edit for your event key.
 
-### Running the script
+### Running the scripts
 
-From the repo root:
-```bash
-python pre_scout/generate_scouting_sheet.py
-```
+Github Actions will automatically run the scripts on commit to the repo! 
 
 This will generate a `.xlsx` file in the base repo root named after the event, simply import to google sheets!
 
-### What's in the spreadsheet
+### What's in the spreadsheet (generate_scouting_sheet.py)
  
 | Sheet | Contents |
 |---|---|
@@ -62,6 +61,16 @@ This will generate a `.xlsx` file in the base repo root named after the event, s
 | **2nd Pick List** | Teams sorted by OPR with a DNP column for alliance selection |
  
 > **Note:** OPR and rankings won't be available until the event has started. The script will skip them and fill in `N/A`.
+
+### What's in the spreadsheet (generate_assignments.py)
+ 
+ | Sheet | Contents |
+|---|---|
+| **Full Schedule** | Each match in order with assigned scouters |
+| **Scouter tabs** | Each scouter has a tab with solely their teams to scout |
+| **Load summary** | Summary of how many teams each scouter will scout |
+
+> **Note:** Schedule is not available before competition!
 
 ### Automatic updates via GitHub Actions
  
@@ -74,7 +83,7 @@ For this to work, make sure your TBA API key is saved as a repository secret:
 - **Settings → Secrets and variables → Actions → New repository secret**
 - Name: `TBA_KEY2`
 - Value: your API key
- 
+
 ---
 
 ## docs folder
@@ -169,6 +178,7 @@ If you commit your CSVs to the `match_results/` folder, the GitHub Actions workf
  
 | Task | Command |
 |---|---|
+| Generate Assignments | `python pre_scout/generate_assignments.py` |
 | Run pre-scout script | `python pre_scout/generate_scouting_sheet.py` |
 | Merge match CSVs | `python docs/merge_scouting.py match_results` |
 | Access scouting app | Open GitHub Pages URL on phone |
